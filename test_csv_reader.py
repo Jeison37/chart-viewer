@@ -17,5 +17,17 @@ class TestCSVReader(unittest.TestCase):
         self.assertFalse(res)
         self.assertIsNone(reader._raw_data)
 
+    def test_get_column_names(self):
+        reader = CSVReader()
+        reader.load_data("datos.csv")
+        
+        columns = reader.get_column_names()
+        self.assertEqual(columns, ["Mes", "Ventas", "Gastos", "Nuevos_Clientes"])
+
+    def test_get_column_names_empty(self):
+        reader = CSVReader()
+        empty_columns = reader.get_column_names()
+        
+        self.assertEqual(empty_columns, [])
 if __name__ == "__main__":
     unittest.main()
