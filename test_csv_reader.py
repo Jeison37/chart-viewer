@@ -2,32 +2,29 @@ import unittest
 from csvreader import CSVReader 
 
 class TestCSVReader(unittest.TestCase):
-    
-    def test_load_data_success(self):
-        reader = CSVReader()
-        res = reader.load_data("datos.csv")
+
+    def setUp(self):
+        self.empty_reader = CSVReader()
         
+        self.loaded_reader = CSVReader()
+        self.loaded_reader.load_data("datos.csv")
+
+    def test_load_data_success(self):
+        res = self.empty_reader.load_data("datos.csv")
         self.assertTrue(res)
-        self.assertIsNotNone(reader._raw_data)
+        self.assertIsNotNone(self.empty_reader._raw_data)
 
     def test_load_data_failure(self):
-        reader = CSVReader()
-        res = reader.load_data("fail_test.csv")
-        
+        res = self.empty_reader.load_data("fail.csv")
         self.assertFalse(res)
-        self.assertIsNone(reader._raw_data)
+        self.assertIsNone(self.empty_reader._raw_data)
 
     def test_get_column_names(self):
-        reader = CSVReader()
-        reader.load_data("datos.csv")
-        
-        columns = reader.get_column_names()
+        columns = self.loaded_reader.get_column_names()
         self.assertEqual(columns, ["Mes", "Ventas", "Gastos", "Nuevos_Clientes"])
 
     def test_get_column_names_empty(self):
-        reader = CSVReader()
-        empty_columns = reader.get_column_names()
-        
+        empty_columns = self.empty_reader.get_column_names()
         self.assertEqual(empty_columns, [])
 if __name__ == "__main__":
     unittest.main()
