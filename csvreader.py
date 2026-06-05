@@ -23,3 +23,13 @@ class CSVReader:
         if self._raw_data is not None:
             return self._raw_data[columns].copy()
         return None
+    
+    def get_numeric_columns(self):
+        if self._raw_data is not None:
+            return self._raw_data.select_dtypes(include=['number']).columns.tolist()
+        return []
+
+    def get_categorical_columns(self):
+        if self._raw_data is not None:
+            return self._raw_data.select_dtypes(exclude=['number']).columns.tolist()
+        return []
